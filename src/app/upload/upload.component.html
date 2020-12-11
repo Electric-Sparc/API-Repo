@@ -1,0 +1,285 @@
+<!-- <!DOCTYPE html>
+<html>
+<body>
+
+<h1>Upload File:</h1>
+<br>
+
+
+
+<div class="form-group"> 
+  <label>  
+    Project Name:  
+  </label>  
+  <br>
+  <input type="text" [formControl]="projectName" />  
+  <br>
+  <br>
+
+  <label>  
+    File Name:  
+  </label>  
+  <br>
+  <input type="text" [formControl]="fileName" />  
+  <br>
+  <br>
+
+  <label>  
+    File Type:  
+  </label>  
+  <br>
+  <select [(ngModel)]="selectedType">
+
+    <option *ngFor="let type of fileType" [ngValue]="type">{{ type }}</option>
+  
+  </select>
+  {{selectedType}}
+  <br>
+  <br>
+
+  <label>  
+    URL:  
+  </label>  
+  <br>
+  <input type="text" [formControl]="url" />  
+  <br>
+  <br>
+
+  <label>  
+    Checker:  
+  </label>  
+  <br>
+  <input type="text" [formControl]="checker" />  
+  <br>
+  <br>
+
+  
+  <label>  
+    Description:  
+  </label>  
+  <br>
+  <input type="text" [formControl]="description" />  
+  <br>
+  <br>
+  
+</div> 
+<br>
+<button (click)="insert_new()" class="btn btn-dark">Upload</button> 
+  
+<div class="form-group">
+  <label for="file">Choose File</label>
+  <input type="file"
+         id="file"
+         (change)="handleFileInput($event.target.files)"
+         #file>
+</div>
+</body>
+</html> -->
+
+
+
+<div>
+  <!-- <header class="header">
+    FinIQ API Repository
+  </header> -->
+
+  <div class="main-page">
+    <div class="app-logo">
+
+    </div>
+    <div class="app-logo">
+
+    </div>
+    <div _ngcontent-saw-c1="" class="app-logo" style="text-align: end;font-size: xx-small;">
+      <label>-_0</label>
+    </div>
+    <div class="upload-container">
+      <div class="header1">
+        Project List
+        <label class="add-api" data-toggle="tooltip" title="Add API" data-toggle="modal" data-target="#exampleModal"
+          (click)="toggleModal()">+</label>
+      </div>
+      <div class="search-project">
+        <input class="search-box" type="text" placeholder="Search Project or API name">
+      </div>
+      <!-- <div ng-repeat="name in projectname">
+                    <div>{{name}}</div>
+                    <div ng-repeat="(name, apis) in name">   
+                         {{name}}
+                    </div>
+                 </div> -->
+      <div class="project-list">
+        <div class="upload-file" *ngFor="let name of projectnames">
+          <div class="list-grid">
+            <label class="project-name" (click)="toggleList(name)">
+              <div class="project-icon"></div>{{name}}
+            </label>
+          </div>
+          <ul *ngIf="expandedList[name]">
+            <div class="list-item" *ngFor="let api of projectapilist[name]" (click)="get_URL(name, api)">
+              <div class="api-icon"></div>
+              <div class="request">{{apidata[0][name][api]['method']}}</div><label>{{api}}</label>
+            </div>
+          </ul>
+        </div>
+
+        <hr>
+        <input class="search-box" type="url" style="width: 80%;" [(ngModel)]="postmanurl" name="postmanurl">
+        <img style="float: right;width: 15%; padding-top: 3%;" data-toggle="tooltip" title="Add Postman Collection"
+          (click)="postmanURL()" src="https://sdtimes.com/wp-content/uploads/2018/08/logo-glyph.png">
+        <div *ngIf="postmanData">
+          <label (click)="toggleCollection()">
+            <div class="project-icon"></div>{{postmanData.info.name}}
+          </label>
+          <ul *ngIf="displayCollection">
+            <div class="upload-file" *ngFor="let api of postmanData['item']">
+              <li (click)="get_postmanURL(api)">
+                <div class="request">{{api.request.method}}</div>
+                {{api.name}}
+              </li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-container">
+      <div class="search">
+        <div class="header2">
+          Request Emulator
+        </div>
+
+        <form class="form">
+          <label>URL :</label>
+          <div class="input-url">
+            <div class="custom-select">
+              <input class="method" disabled type="text" value="{{type}}" placeholder="Method">
+            </div>
+            <div class="user-box">
+              <input class="input-url" type="text" [(ngModel)]="endurl" name="endurl" placeholder="URL" required="">
+            </div>
+            <button (click)="fetchURL(options)" class="btn-send">Send</button>
+          </div>
+          <!-- <label>Request Method :</label>
+          <div class="user-box">
+            <input type="text" [(ngModel)]="type" name="type" required="">
+          </div> -->
+          <label>Parameters :</label>
+          <div class="user-box">
+            <textarea type="text" [(ngModel)]="params" style="height: 200px; width: 100%;" name="params"
+              required=""></textarea>
+          </div>
+          <!-- <div class="user-box">
+                          <textarea type="text" [(ngModel)]="headerstring" (change)="toggleInfo()" style="height: 70px; width: 100%;"  name="headers" required=""></textarea>
+                          <label>Headers</label>
+                      </div> -->
+        </form>
+      </div>
+
+      <div class="search-results">
+        <div class="file">
+          <div class="header2">
+            Response Data:
+            <label class="responseStatus" data-toggle="tooltip" title="Add API" data-toggle="modal"
+              data-target="#exampleModal" (click)="toggleModal()" *ngIf="statusInfo">{{statusInfo}}</label>
+          </div>
+          <div class="output">
+            <textarea type="text" style="height: 200px; width: 100%;" disabled>{{response}}</textarea>
+          </div>
+          <a class="file-icon" *ngIf="displayUrlInfo" style="grid-row: 2;"></a>
+          <a class="file-name" *ngIf="displayUrlInfo" style="grid-row: 2;">API Description Pane</a>
+          <a class="api-description" *ngIf="displayUrlInfo">
+            <textarea type="text" [(ngModel)]="apiInfo" style="height: 250px; width: 100%;" disabled name="description"
+              required=""></textarea>
+          </a>
+          <!-- <a class="upload-time"><label style="font-size: medium; font-weight: 200;">{{statusInfo}}</label><img
+              (click)="displayInfo()" src="https://techpoint.org/wp-content/uploads/2015/12/info-xxl.png"
+              width="20px"></a> -->
+        </div>
+      </div>
+
+    </div>
+    <div class="performance-container">
+      <div class="header2">
+        Performance
+      </div>
+    </div>
+  </div>
+
+  <div id="myModal" class="modal" *ngIf="displayModal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" (click)="toggleModal()">&times;</span>
+      <div class="header2">Add API</div>
+      <form class="form">
+        <label>Project Name :</label>
+        <div class="user-box">
+          <input type="text" [(ngModel)]="projectname" name="projectname" required="">
+        </div>
+        <label>API Name :</label>
+        <div class="user-box">
+          <input type="text" [(ngModel)]="api" name="api" required="">
+        </div>
+        <label>URL :</label>
+        <div class="user-box">
+          <input type="text" [(ngModel)]="url" name="url" required="">
+        </div>
+        <label>Request Method :</label>
+        <div class="user-box">
+          <input type="text" [(ngModel)]="method" name="method" required="">
+        </div>
+        <label>Headers :</label>
+        <div class="user-box">
+          <textarea type="text" [(ngModel)]="headers" styheaderstringle="height: 200px; width: 100%;" name="headers"
+            required=""></textarea>
+        </div>
+        <label>Body Parameters :</label>
+        <div class="user-box">
+          <textarea type="text" [(ngModel)]="body" style="height: 70px; width: 100%;" name="body"
+            required=""></textarea>
+        </div>
+        <label>Descriptions :</label>
+        <div class="user-box">
+          <textarea type="text" [(ngModel)]="description" style="height: 70px; width: 100%;" name="description"
+            required=""></textarea>
+        </div>
+        <button (click)="addAPI(); toggleModal()" class="btn btn-dark">ADD</button>
+        <div class="user-box" *ngIf="fileData">
+          <textarea type="text" [(ngModel)]="fileData" style="height: 170px; width: 100%;" name="fileData"
+            disabled></textarea>
+        </div>
+        <div class="Block">
+          <label id="lbl">Upload file : </label>
+          <input type='file' (change)="fileChanged($event)">
+        </div>
+        <button type="submit" class="btn btn-dark">UPLOAD</button>
+      </form>
+    </div>
+
+  </div>
+
+
+
+
+  <!-- <div class="search-results">
+    <div class="file">
+      <a class="file-icon"></a>
+      <a class="file-name">Output</a>
+      <a class="output">
+        <textarea style="height: 250px; width: 100%;;" disabled>{{response}}</textarea>
+      </a>
+      <a class="file-icon" *ngIf="displayUrlInfo" style="grid-row: 2;"></a>
+      <a class="file-name" *ngIf="displayUrlInfo" style="grid-row: 2;">API Description Pane</a>
+      <a class="api-description" *ngIf="displayUrlInfo">
+        <textarea type="text" [(ngModel)]="apiInfo" style="height: 250px; width: 100%;" disabled name="description"
+          required=""></textarea>
+      </a>
+      <a class="upload-time"><label style="font-size: medium; font-weight: 200;">{{statusInfo}}</label><img
+          (click)="displayInfo()" src="https://techpoint.org/wp-content/uploads/2015/12/info-xxl.png" width="20px"></a>
+    </div>
+  </div>
+
+</div>
+</div> -->
+</div>
